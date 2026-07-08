@@ -4,10 +4,7 @@ import com.Ecommerce.backend.entity.Product;
 import com.Ecommerce.backend.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,25 +20,42 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/api")
     public String greet(){
         return "The server is on";
     }
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     public ResponseEntity<List<Product>> getAllProducts(){
         List<Product> allProducts = productService.getAllProducts();
         return ResponseEntity.ok(allProducts);
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/api/products")
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
 
         Product newProduct = productService.addNewProduct(product);
             return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
 
     }
+    @GetMapping("/api/products/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable int id){
+        Product product = productService.getProductById(id);
+        return new ResponseEntity<>(product,HttpStatus.OK);
+    }
+        @DeleteMapping("/api/products/{id}")
+        public ResponseEntity<String> deleteProductById(@PathVariable int id){
+             productService.deleteProductById(id);
+            return  ResponseEntity.ok( "Product Deleted successfullly");
+        }
 
+
+        public ResponseEntity<Product> updateProductById(@PathVariable int id ,
+                                                         @RequestBody Product product)
+        {
+        Product newProduct = productService.updateProductById(id,product);
+        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+        }
 
 
 
