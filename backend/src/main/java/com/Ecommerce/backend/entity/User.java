@@ -2,11 +2,17 @@ package com.Ecommerce.backend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 
 @Getter
@@ -17,20 +23,25 @@ import lombok.Setter;
 public class User {
 
     @Id
+    @GeneratedValue
     private int userId;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
 
-    @Column(unique = true)
+    @Email
     private String email;
 
-    @Column(nullable = false)
+    @NotNull
     private String password;
 
-    @Column(nullable = false)
+
     private int phoneNumber;
+
+    private LocalDate createdAt;
+
+    private LocalDate updatedAt;
 
 
 

@@ -1,8 +1,7 @@
 package com.Ecommerce.backend.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +16,7 @@ import lombok.Setter;
 public class Product {
 
     @Id
-    @NotNull(message = "id is required")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
 
     private String name;
@@ -28,5 +27,6 @@ public class Product {
 
     private int stock;
 
-    private String category;
+    @ManyToOne
+    private Category category;
 }
