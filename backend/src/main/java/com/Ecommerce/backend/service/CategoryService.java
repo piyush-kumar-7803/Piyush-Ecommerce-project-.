@@ -3,6 +3,7 @@ package com.Ecommerce.backend.service;
 
 import com.Ecommerce.backend.entity.Category;
 import com.Ecommerce.backend.repo.CategoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class CategoryService {
         return categoryRepository.findById(Id).orElseThrow(()-> new RuntimeException("Category with Id = " + Id +" not Found"));
     }
 
+    @Transactional
     public Category updateById(Category category , Long Id) {
         Category existingCategory = categoryRepository.findById(Id).orElseThrow(()->new RuntimeException("Cant Update"));
 
@@ -35,4 +37,9 @@ public class CategoryService {
         existingCategory.setCategoryDescription(category.getCategoryDescription());
         return categoryRepository.save(existingCategory);
     }
+
+    public void deleteCategoryById(Long id) {
+        categoryRepository.deleteById(id);
+    }
+
 }

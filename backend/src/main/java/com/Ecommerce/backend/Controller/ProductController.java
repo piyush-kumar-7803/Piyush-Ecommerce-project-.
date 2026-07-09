@@ -49,11 +49,11 @@ public class ProductController {
             return  ResponseEntity.ok( "Product Deleted successfullly");
         }
 
-
-        public ResponseEntity<Product> updateProductById(@PathVariable int id ,
+        @PutMapping("/api/products/{Id}")
+        public ResponseEntity<Product> updateProductById(@PathVariable int Id ,
                                                          @RequestBody Product product)
         {
-        Product newProduct = productService.updateProductById(id,product);
+        Product newProduct = productService.updateProductById(Id,product);
         return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
         }
 

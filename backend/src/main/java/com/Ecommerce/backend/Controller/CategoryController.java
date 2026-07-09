@@ -37,10 +37,16 @@ public class CategoryController {
 
     }
 
+    @PutMapping("/api/categories/{Id}")
     public ResponseEntity<Category> updateById(@RequestBody Category category,
                                                @PathVariable long Id){
         Category newCategory = categoryService.updateById(category, Id);
         return new ResponseEntity<>(category,HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping("/api/categories/{id}")
+    public ResponseEntity<String> deleteCategoryById(@PathVariable Long id){
+        categoryService.deleteCategoryById(id);
+        return  ResponseEntity.ok( "category Deleted successfully");
+    }
 }
