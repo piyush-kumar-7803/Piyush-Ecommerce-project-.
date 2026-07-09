@@ -1,9 +1,6 @@
 package com.Ecommerce.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,10 +12,11 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Cart {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartId;
 
     @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 }

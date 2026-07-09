@@ -1,6 +1,7 @@
 package com.Ecommerce.backend.entity;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Product {
 
     private int stock;
 
-    @ManyToOne
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable =false)
     private Category category;
 }

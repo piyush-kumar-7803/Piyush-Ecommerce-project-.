@@ -1,27 +1,25 @@
 package com.Ecommerce.backend.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class CartItem {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartItemId;
 
     @ManyToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private int quantity;
