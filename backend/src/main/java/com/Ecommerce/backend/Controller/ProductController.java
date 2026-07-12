@@ -39,18 +39,18 @@ public class ProductController {
 
     }
     @GetMapping("/api/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id){
+    public ResponseEntity<Product> getProductById(@PathVariable Long id){
         Product product = productService.getProductById(id);
         return new ResponseEntity<>(product,HttpStatus.OK);
     }
         @DeleteMapping("/api/products/{id}")
-        public ResponseEntity<String> deleteProductById(@PathVariable int id){
+        public ResponseEntity<String> deleteProductById(@PathVariable Long id){
              productService.deleteProductById(id);
             return  ResponseEntity.ok( "Product Deleted successfullly");
         }
 
         @PutMapping("/api/products/{Id}")
-        public ResponseEntity<Product> updateProductById(@PathVariable int Id ,
+        public ResponseEntity<Product> updateProductById(@PathVariable Long Id ,
                                                          @RequestBody Product product)
         {
         Product newProduct = productService.updateProductById(Id,product);

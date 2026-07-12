@@ -1,6 +1,9 @@
 package com.Ecommerce.backend.Controller;
 
 import com.Ecommerce.backend.entity.Cart;
+import com.Ecommerce.backend.entity.CartItem;
+import com.Ecommerce.backend.entity.Product;
+import com.Ecommerce.backend.entity.User;
 import com.Ecommerce.backend.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,30 +20,13 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping("/api/carts")
-    public ResponseEntity<Cart> addCart(@RequestBody Cart cart) {
-        Cart newCart = cartService.addCart(cart);
-        return new ResponseEntity<>(newCart, HttpStatus.CREATED);
-    }
 
-    @GetMapping("/api/Carts")
-    public ResponseEntity<List<Cart>> getAllCarts() {
-        List<Cart> cart = cartService.getAllCarts();
-        return new ResponseEntity<>(cart, HttpStatus.FOUND);
-    }
+    @PostMapping("/api/cart/items")
+    public ResponseEntity<CartItem> addToCart (Long productId, int quantity, User user){
+        return new ResponseEntity<>(cartService.addToCart(productId,quantity,user),HttpStatus.CREATED);
 
-    @GetMapping("/api/Carts/{Id}")
-    public ResponseEntity<Cart> getCartById(@PathVariable Long Id) {
-        Cart cart = cartService.getCartById(Id);
-        return new ResponseEntity<>(cart, HttpStatus.OK);
 
     }
 
 
-
-    @DeleteMapping("/api/Carts/{id}")
-    public ResponseEntity<String> deleteCartById(@PathVariable Long id) {
-        cartService.deleteCartById(id);
-        return ResponseEntity.ok("Cart Deleted successfully");
-    }
 }

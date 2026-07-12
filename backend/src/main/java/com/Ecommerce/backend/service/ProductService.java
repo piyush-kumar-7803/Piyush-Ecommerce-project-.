@@ -32,17 +32,17 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product getProductById( int id) {
+    public Product getProductById( Long id) {
         return productRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Product Not found"));
     }
 
-    public void deleteProductById(int id) {
+    public void deleteProductById(Long id) {
          productRepository.deleteById(id);
     }
 
     @Transactional
-    public Product updateProductById(int id, Product product) {
+    public Product updateProductById(Long id, Product product) {
         Product existingProduct = productRepository.findById(id).orElseThrow(()->new RuntimeException(String.valueOf(HttpStatus.NOT_FOUND)));
 
         existingProduct.setName(product.getName());

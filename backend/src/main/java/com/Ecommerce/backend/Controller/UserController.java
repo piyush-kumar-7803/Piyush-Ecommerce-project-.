@@ -42,7 +42,7 @@ public class UserController {
     public ResponseEntity<User> updateById(@RequestBody User User,
                                            @PathVariable long Id) {
         User newUser = userService.updateById(User, Id);
-        return new ResponseEntity<>(User, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(newUser, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/api/users/{id}")
