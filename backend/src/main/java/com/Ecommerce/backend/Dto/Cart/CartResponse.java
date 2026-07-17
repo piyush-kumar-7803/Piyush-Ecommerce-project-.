@@ -13,14 +13,12 @@ public class CartResponse {
     private BigDecimal grandTotal;
 
     public CartResponse(Cart cart) {
-        this.cartId = cart.getCartId();
+        this.cartId = cart.getCartId(); // Changed from getId() to getCartId()
 
-        // 1. Map the list of CartItem entities to CartItemResponse DTOs
         this.items = cart.getItems().stream()
-                .map(CartItemResponse::new) // Assumes CartItemResponse has a similar constructor
-                .toList();
+                .map(CartItemResponse::new)
+                .toList(); // If using Java 16+, otherwise use .collect(Collectors.toList())
 
-        // 2. Map the total (adjust depending on how your Cart entity calculates it)
         this.grandTotal = cart.getGrandTotal();
     }
 }

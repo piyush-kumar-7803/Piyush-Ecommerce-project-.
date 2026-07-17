@@ -1,5 +1,7 @@
 package com.Ecommerce.backend.Dto.Cart;
 
+import com.Ecommerce.backend.entity.CartItem;
+
 import java.math.BigDecimal;
 
 public class CartItemResponse {
@@ -12,4 +14,13 @@ public class CartItemResponse {
     private Integer quantity;
 
     private BigDecimal totalPrice;
+
+
+        public CartItemResponse(CartItem item) {
+            this.productId = item.getProduct().getProductId(); // check your Product ID field name
+            this.productName = item.getProduct().getName();     // check your Product Name field name
+            this.quantity = item.getQuantity();
+            this.price = item.getProduct().getPrice();
+        }
+
 }
