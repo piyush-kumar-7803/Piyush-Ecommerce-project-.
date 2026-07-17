@@ -1,5 +1,6 @@
 package com.Ecommerce.backend.service;
 
+import com.Ecommerce.backend.Dto.Cart.CartResponse;
 import com.Ecommerce.backend.entity.Cart;
 import com.Ecommerce.backend.entity.CartItem;
 import com.Ecommerce.backend.entity.Product;
@@ -30,6 +31,18 @@ public class CartService {
         this.cartItemRepository = cartItemRepository;
         this.userRepository = userRepository;
     }
+
+    @Transactional
+    public  CartResponse getCart(Long userId) {
+
+        Cart cart = cartRepository.findByUserId(userId).orElseGet(()-> {User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("not found"));
+            Cart newCart = new Cart() ;
+            newCart.setUser(user);
+            return cartRepository.save(newCart);} );
+        return new CartResponse(cart);
+
+    }
+
 
 
     @Transactional
