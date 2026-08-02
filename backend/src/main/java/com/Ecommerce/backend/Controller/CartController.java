@@ -47,5 +47,11 @@ public class CartController {
 
     }
 
+    @DeleteMapping("/api/cart")
+    public ResponseEntity<CartResponse> emptyCart(@RequestParam Long userId) {
+        CartResponse cartResponse = cartService.emptyCart(userId);
+        return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+    }
+
 
 }

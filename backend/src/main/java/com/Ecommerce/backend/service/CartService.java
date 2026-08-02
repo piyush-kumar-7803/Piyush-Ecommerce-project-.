@@ -115,7 +115,16 @@ public class CartService {
 
         return new CartResponse(cart);
 
+    }
 
+    public CartResponse emptyCart(Long userId) {
+        Cart cart = getOrCreateCart(userId);
+
+        cart.getCartItems().clear();
+
+        cartRepository.save(cart);
+
+        return new CartResponse(cart);
     }
 }
 
