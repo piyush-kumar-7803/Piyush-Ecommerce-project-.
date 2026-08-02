@@ -99,5 +99,23 @@ public class CartService {
             return cartRepository.save(newCart);
         });
     }
+
+    @Transactional
+    public CartResponse removeProduct(Long productId, Long userId) {
+        Cart cart = getOrCreateCart(userId);
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product).orElseThrow(() -> new RuntimeException("Product is not Present in Cart"));
+
+        cartItemRepository.delete(cartItem);
+        cart.getCartItems().remove(cartItem);
+
+        Cart updatedCart = cartRepository.save(cart);
+
+        return new CartResponse(cart);
+
+
+    }
 }
 

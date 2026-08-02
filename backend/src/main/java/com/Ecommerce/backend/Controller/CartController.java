@@ -40,5 +40,12 @@ public class CartController {
 
     }
 
+    @DeleteMapping("api/cart/items/{productId}")
+    public ResponseEntity<CartResponse> removeProduct(@PathVariable Long productId, @RequestParam Long userId) {
+        CartResponse cartResponse = cartService.removeProduct(productId, userId);
+        return new ResponseEntity<>(cartResponse, HttpStatus.OK);
+
+    }
+
 
 }

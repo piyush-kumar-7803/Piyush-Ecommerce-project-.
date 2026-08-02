@@ -3,7 +3,6 @@ package com.Ecommerce.backend.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> items = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public Cart(User user) {
         this.user = user;
@@ -31,13 +30,11 @@ public class Cart {
 
 
     public java.math.BigDecimal getGrandTotal() {
-        if (items == null) return java.math.BigDecimal.ZERO;
-        return items.stream()
+        if (cartItems == null) return java.math.BigDecimal.ZERO;
+        return cartItems.stream()
                 .map(item -> item.getProduct().getPrice().multiply(new java.math.BigDecimal(item.getQuantity())))
                 .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
     }
-
-
 
 
 }
