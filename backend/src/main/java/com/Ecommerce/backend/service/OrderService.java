@@ -143,6 +143,13 @@ public class OrderService {
         if (order.getStatus() == status) {
             throw new BadRequestException("the status is already" + status);
         }
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new BadRequestException("Cancelled orders cannot be updated.");
+        }
+
+        if (order.getStatus() == OrderStatus.DELIVERED) {
+            throw new BadRequestException("Delivered orders cannot be updated.");
+        }
         order.setStatus(status);
 
         orderRepository.save(order);
@@ -150,8 +157,23 @@ public class OrderService {
     }
 
     private OrderResponse mapToOrderResponse(Order order) {
-        // TODO
-        return null;
+
+        OrderResponse response = new OrderResponse();
+
+        response.setOrderId(order.getOrderID());
+        response.setOrderDate(order.getCreatedAt());
+        response.setStatus(order.getStatus().name());
+        response.setTotalAmount(order.getTotalPrice());
+
+        List<OrderItemResponse> items = new ArrayList<>();
+
+        for (OrderItem orderItem : order.getOrderItems()) {
+            items.add(mapToOrderItemResponse(orderItem));
+        }
+
+        response.setItems(items);
+
+        return response;
     }
 
     private OrderItemResponse mapToOrderItemResponse(OrderItem item) {
