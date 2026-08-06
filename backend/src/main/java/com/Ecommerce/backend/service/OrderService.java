@@ -177,7 +177,20 @@ public class OrderService {
     }
 
     private OrderItemResponse mapToOrderItemResponse(OrderItem item) {
-        // TODO
-        return null;
+
+        OrderItemResponse response = new OrderItemResponse();
+
+        response.setProductId(item.getProduct().getProductId());
+        response.setProductName(item.getProduct().getName());
+        response.setPrice(item.getPrice());
+        response.setQuantity(item.getQuantity());
+
+        response.setTotal(
+                item.getPrice().multiply(
+                        BigDecimal.valueOf(item.getQuantity())
+                )
+        );
+
+        return response;
     }
 }
