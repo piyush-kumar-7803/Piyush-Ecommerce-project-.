@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -75,7 +76,6 @@ public class OrderService {
             productRepository.save(product);
 
 
-
             cartRepository.save(userCart);
 
 
@@ -86,8 +86,20 @@ public class OrderService {
     }
 
     public List<OrderResponse> getOrders(Long userId) {
-        // TODO
-        return null;
+
+        userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found with id " + userId));
+
+        List<Order> orders = orderRepository.findByUserUserId(userId);
+
+        List<OrderResponse> responses = new ArrayList<>();
+
+        for (Order order : orders) {
+            responses.add(mapToOrderResponse(order));
+        }
+
+        return responses;
     }
 
     public OrderResponse getOrderById(Long orderId) {
