@@ -112,8 +112,27 @@ public class OrderService {
     }
 
     public OrderResponse cancelOrder(Long orderId) {
-        // TODO
-        return null;
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Order not found with id " + orderId));
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new BadRequestException("Order is already cancelled.");
+        }
+        if (order.getStatus() == OrderStatus.DELIVERED) {
+            throw new BadRequestException("Delivered orders cannot be cancelled.");
+        }
+        for (OrderItem item : order.getOrderItems()) {
+
+            Product product = item.getProduct();
+
+            product.setStock(product.getStock() + item.getQuantity());
+
+            productRepository.save(product);
+        }
+        order.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
+        return mapToOrderResponse(order);
+
     }
 
     public OrderResponse updateOrderStatus(Long orderId, OrderStatus status) {
