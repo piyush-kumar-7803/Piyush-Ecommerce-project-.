@@ -45,6 +45,7 @@ public class OrderService {
         order.setTotalPrice(BigDecimal.ZERO);
 
         List<CartItem> cartItems = userCart.getCartItems();
+        BigDecimal total = BigDecimal.ZERO;
         for (CartItem cartItem : cartItems) {
 
             Product product = cartItem.getProduct();
@@ -63,7 +64,7 @@ public class OrderService {
 
             order.addOrderItem(orderItem);
 
-            BigDecimal total = BigDecimal.ZERO;
+
             BigDecimal itemTotal =
                     product.getPrice().multiply(
                             BigDecimal.valueOf(quantity));
@@ -76,12 +77,12 @@ public class OrderService {
             productRepository.save(product);
 
 
-            cartRepository.save(userCart);
-
-
         }
         orderRepository.save(order);
         userCart.getCartItems().clear();
+        cartRepository.save(userCart);
+
+
         return mapToOrderResponse(order);
     }
 
@@ -92,6 +93,9 @@ public class OrderService {
                         new ResourceNotFoundException("User not found with id " + userId));
 
         List<Order> orders = orderRepository.findByUserUserId(userId);
+        if (orders.isEmpty()) {
+            throw new ResourceNotFoundException("No orders found.");
+        }
 
         List<OrderResponse> responses = new ArrayList<>();
 
@@ -107,6 +111,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Order not found with id " + orderId));
+
 
         return mapToOrderResponse(order);
     }
