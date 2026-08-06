@@ -3,8 +3,12 @@ package com.Ecommerce.backend.service;
 import com.Ecommerce.backend.Dto.Order.OrderItemResponse;
 import com.Ecommerce.backend.Dto.Order.OrderResponse;
 import com.Ecommerce.backend.Enum.OrderStatus;
+import com.Ecommerce.backend.Exception.BadRequestException;
+import com.Ecommerce.backend.Exception.ResourceNotFoundException;
+import com.Ecommerce.backend.entity.Cart;
 import com.Ecommerce.backend.entity.Order;
 import com.Ecommerce.backend.entity.OrderItem;
+import com.Ecommerce.backend.entity.User;
 import com.Ecommerce.backend.repo.CartRepository;
 import com.Ecommerce.backend.repo.OrderRepository;
 import com.Ecommerce.backend.repo.ProductRepository;
@@ -26,7 +30,13 @@ public class OrderService {
     private final ProductRepository productRepository;
 
     public OrderResponse placeOrder(Long userId) {
-        // TODO
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User cannot be found"));
+
+        Cart userCart = cartRepository.findByUser_userId(userId).orElseThrow(() -> new ResourceNotFoundException("user cart cant be found"));
+        if (userCart.getCartItems().isEmpty()) {
+            throw new BadRequestException("Cart is empty.");
+        }
+
         return null;
     }
 
