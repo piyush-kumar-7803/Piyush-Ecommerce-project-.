@@ -103,8 +103,12 @@ public class OrderService {
     }
 
     public OrderResponse getOrderById(Long orderId) {
-        // TODO
-        return null;
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Order not found with id " + orderId));
+
+        return mapToOrderResponse(order);
     }
 
     public OrderResponse cancelOrder(Long orderId) {
