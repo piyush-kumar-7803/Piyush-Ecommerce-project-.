@@ -136,8 +136,17 @@ public class OrderService {
     }
 
     public OrderResponse updateOrderStatus(Long orderId, OrderStatus status) {
-        // TODO
-        return null;
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Order not found with id " + orderId));
+
+        if (order.getStatus() == status) {
+            throw new BadRequestException("the status is already" + status);
+        }
+        order.setStatus(status);
+
+        orderRepository.save(order);
+        return mapToOrderResponse(order);
     }
 
     private OrderResponse mapToOrderResponse(Order order) {
