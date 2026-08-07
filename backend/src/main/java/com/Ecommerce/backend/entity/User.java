@@ -33,8 +33,7 @@ public class User {
     @NotNull
     private String password;
 
-    private int phoneNumber;
-
+    private String phoneNumber;
     private LocalDate createdAt;
 
     private LocalDate updatedAt;

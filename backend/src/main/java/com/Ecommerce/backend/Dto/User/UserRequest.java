@@ -9,5 +9,5 @@ public class UserRequest {
 
     private String password;
 
-    private String phone;
+    private String phoneNumber;
 }
