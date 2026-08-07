@@ -1,8 +1,8 @@
 package com.Ecommerce.backend.entity;
 
+import com.Ecommerce.backend.Enum.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,12 +12,12 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 
+@Entity
+@Table(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "users")
 public class User {
 
     @Id
@@ -27,13 +27,11 @@ public class User {
     @NotNull
     private String userName;
 
-
     @Email
     private String email;
 
     @NotNull
     private String password;
-
 
     private int phoneNumber;
 
@@ -41,7 +39,6 @@ public class User {
 
     private LocalDate updatedAt;
 
-
-
-
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
