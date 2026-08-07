@@ -1,53 +1,60 @@
 package com.Ecommerce.backend.Controller;
 
+import com.Ecommerce.backend.Dto.User.UserResponse;
 import com.Ecommerce.backend.entity.User;
-
 import com.Ecommerce.backend.service.UserService;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/users")
 public class UserController {
 
-    UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping("/api/users")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        User newUser = userService.addUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    // Get all users
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+
+        List<UserResponse> users = userService.getAllUsers();
+
+        return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/api/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> user = userService.getAllUsers();
-        return new ResponseEntity<>(user, HttpStatus.FOUND);
+    // Get user by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getUserById(
+            @PathVariable Long id) {
+
+        UserResponse user = userService.getUserById(id);
+
+        return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/api/users/{Id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long Id) {
-        User user = userService.getUserById(Id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    // Update user
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> updateById(
+            @RequestBody User user,
+            @PathVariable Long id) {
 
+        UserResponse updatedUser = userService.updateById(user, id);
+
+        return ResponseEntity.ok(updatedUser);
     }
 
-    @PutMapping("/api/users/{Id}")
-    public ResponseEntity<User> updateById(@RequestBody User User,
-                                           @PathVariable long Id) {
-        User newUser = userService.updateById(User, Id);
-        return new ResponseEntity<>(newUser, HttpStatus.ACCEPTED);
-    }
+    // Delete user
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUserById(
+            @PathVariable Long id) {
 
-    @DeleteMapping("/api/users/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
-        return ResponseEntity.ok("User Deleted successfully");
+
+        return ResponseEntity.ok("User deleted successfully");
     }
 }
