@@ -1,8 +1,9 @@
 package com.Ecommerce.backend.service;
 
 
-import com.Ecommerce.backend.Exception.ResourceNotFoundException;
+import com.Ecommerce.backend.entity.Category;
 import com.Ecommerce.backend.entity.Product;
+import com.Ecommerce.backend.repo.CategoryRepository;
 import com.Ecommerce.backend.repo.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -14,63 +15,62 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(
+            ProductRepository productRepository,
+            CategoryRepository categoryRepository) {
+
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
-    // Get all products
     public List<Product> getAllProducts() {
-
         return productRepository.findAll();
     }
 
-    // Add product
     public Product addNewProduct(Product product) {
+
+        Long categoryId = product.getCategory().getCategoryId();
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new RuntimeException("Category not found"));
+
+        product.setCategory(category);
 
         return productRepository.save(product);
     }
 
-    // Get product by ID
     public Product getProductById(Long id) {
-
         return productRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Product not found with id " + id
-                        ));
+                        new RuntimeException("Product not found"));
     }
 
-    // Delete product
     public void deleteProductById(Long id) {
-
-        if (!productRepository.existsById(id)) {
-            throw new ResourceNotFoundException(
-                    "Product not found with id " + id
-            );
-        }
-
         productRepository.deleteById(id);
     }
 
-    // Update product
     @Transactional
-    public Product updateProductById(
-            Long id,
-            Product product) {
+    public Product updateProductById(Long id, Product product) {
 
-        Product existingProduct =
-                productRepository.findById(id)
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Product not found with id " + id
-                                ));
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Product not found"));
 
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setStock(product.getStock());
-        existingProduct.setCategory(product.getCategory());
+
+        Long categoryId = product.getCategory().getCategoryId();
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new RuntimeException("Category not found"));
+
+        existingProduct.setCategory(category);
 
         return productRepository.save(existingProduct);
     }

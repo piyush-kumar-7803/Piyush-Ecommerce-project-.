@@ -10,43 +10,63 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/categories")
 public class CategoryController {
 
-    CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService){
-        this.categoryService=categoryService;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
-    @PostMapping("/api/categories")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category){
-       Category newCategory = categoryService.addCategory(category);
-       return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
+    // Add category
+    @PostMapping
+    public ResponseEntity<Category> addCategory(
+            @RequestBody Category category) {
+
+        Category newCategory = categoryService.addCategory(category);
+
+        return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
     }
 
-    @GetMapping("/api/categories")
-    public ResponseEntity<List<Category>> getAllCategories(){
-        List<Category> category = categoryService.getAllCategories();
-        return  new ResponseEntity<>(category,HttpStatus.FOUND);
+    // Get all categories
+    @GetMapping
+    public ResponseEntity<List<Category>> getAllCategories() {
+
+        List<Category> categories = categoryService.getAllCategories();
+
+        return ResponseEntity.ok(categories);
     }
 
-    @GetMapping("/api/categories/{Id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long Id){
-        Category category =categoryService.getCategoryById(Id);
-        return new ResponseEntity<>(category,HttpStatus.OK);
+    // Get category by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> getCategoryById(
+            @PathVariable Long id) {
 
+        Category category = categoryService.getCategoryById(id);
+
+        return ResponseEntity.ok(category);
     }
 
-    @PutMapping("/api/categories/{Id}")
-    public ResponseEntity<Category> updateById(@RequestBody Category category,
-                                               @PathVariable long Id){
-        Category newCategory = categoryService.updateById(category, Id);
-        return new ResponseEntity<>(category,HttpStatus.ACCEPTED);
+    // Update category
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> updateById(
+            @RequestBody Category category,
+            @PathVariable Long id) {
+
+        Category updatedCategory =
+                categoryService.updateById(category, id);
+
+        return ResponseEntity.ok(updatedCategory);
     }
 
-    @DeleteMapping("/api/categories/{id}")
-    public ResponseEntity<String> deleteCategoryById(@PathVariable Long id){
+    // Delete category
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCategoryById(
+            @PathVariable Long id) {
+
         categoryService.deleteCategoryById(id);
-        return  ResponseEntity.ok( "category Deleted successfully");
+
+        return ResponseEntity.ok("Category deleted successfully");
     }
 }

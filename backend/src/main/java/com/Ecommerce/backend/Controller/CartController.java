@@ -2,9 +2,7 @@ package com.Ecommerce.backend.Controller;
 
 import com.Ecommerce.backend.Dto.Cart.CartResponse;
 import com.Ecommerce.backend.Dto.Cart.UpdateCartItemRequest;
-import com.Ecommerce.backend.entity.CartItem;
 import com.Ecommerce.backend.service.CartService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +18,18 @@ public class CartController {
 
 
     @PostMapping("/api/cart/items")
-    public ResponseEntity<CartItem> addToCart(@RequestParam Long productId, @Valid @RequestParam int quantity, @RequestParam Long userId) {
-        return new ResponseEntity<>(cartService.addToCart(productId, quantity, userId), HttpStatus.CREATED);
+    public ResponseEntity<CartResponse> addToCart(
+            @RequestParam Long productId,
+            @RequestParam int quantity,
+            @RequestParam Long userId) {
 
+        cartService.addToCart(productId, quantity, userId);
 
+        CartResponse cart = cartService.getCart(userId);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(cart);
     }
 
     @GetMapping("/api/cart")
@@ -40,7 +46,7 @@ public class CartController {
 
     }
 
-    @DeleteMapping("api/cart/items/{productId}")
+    @DeleteMapping("/api/cart/items/{productId}")
     public ResponseEntity<CartResponse> removeProduct(@PathVariable Long productId, @RequestParam Long userId) {
         CartResponse cartResponse = cartService.removeProduct(productId, userId);
         return new ResponseEntity<>(cartResponse, HttpStatus.OK);
