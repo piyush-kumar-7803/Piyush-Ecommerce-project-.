@@ -1,14 +1,11 @@
 package com.Ecommerce.backend.service;
 
 
+import com.Ecommerce.backend.Exception.ResourceNotFoundException;
 import com.Ecommerce.backend.entity.Product;
 import com.Ecommerce.backend.repo.ProductRepository;
-
 import jakarta.transaction.Transactional;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 
@@ -22,28 +19,52 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-
-
+    // Get all products
     public List<Product> getAllProducts() {
+
         return productRepository.findAll();
     }
 
-    public Product addNewProduct(Product product){
+    // Add product
+    public Product addNewProduct(Product product) {
+
         return productRepository.save(product);
     }
 
-    public Product getProductById( Long id) {
+    // Get product by ID
+    public Product getProductById(Long id) {
+
         return productRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Product Not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Product not found with id " + id
+                        ));
     }
 
+    // Delete product
     public void deleteProductById(Long id) {
-         productRepository.deleteById(id);
+
+        if (!productRepository.existsById(id)) {
+            throw new ResourceNotFoundException(
+                    "Product not found with id " + id
+            );
+        }
+
+        productRepository.deleteById(id);
     }
 
+    // Update product
     @Transactional
-    public Product updateProductById(Long id, Product product) {
-        Product existingProduct = productRepository.findById(id).orElseThrow(()->new RuntimeException(String.valueOf(HttpStatus.NOT_FOUND)));
+    public Product updateProductById(
+            Long id,
+            Product product) {
+
+        Product existingProduct =
+                productRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Product not found with id " + id
+                                ));
 
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
@@ -53,5 +74,4 @@ public class ProductService {
 
         return productRepository.save(existingProduct);
     }
-
 }

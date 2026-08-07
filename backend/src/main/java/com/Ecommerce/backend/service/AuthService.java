@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,19 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
+
+    // =========================
+    // REGISTER
+    // =========================
+
     public AuthResponse register(RegisterRequest request) {
 
         // Check if email already exists
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new BadRequestException("Email is already registered");
+
+            throw new BadRequestException(
+                    "Email is already registered"
+            );
         }
 
         // Create user
@@ -42,14 +51,14 @@ public class AuthService {
         user.setUserName(request.getUserName());
         user.setEmail(request.getEmail());
 
-        // Encrypt password
+        // Encrypt password before saving
         user.setPassword(
                 passwordEncoder.encode(request.getPassword())
         );
 
         user.setPhoneNumber(request.getPhoneNumber());
 
-        // New users are USER by default
+        // Every newly registered user is USER
         user.setRole(Role.USER);
 
         user.setCreatedAt(LocalDate.now());
@@ -58,15 +67,26 @@ public class AuthService {
         // Save user
         userRepository.save(user);
 
-        // Generate JWT
-        String token = jwtService.generateToken(
-                org.springframework.security.core.userdetails.User
-                        .withUsername(user.getEmail())
-                        .password(user.getPassword())
-                        .authorities("ROLE_" + user.getRole().name())
-                        .build()
-        );
 
+        // Create Spring Security UserDetails
+        UserDetails userDetails =
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        java.util.List.of(
+                                new org.springframework.security.core.authority.SimpleGrantedAuthority(
+                                        "ROLE_" + user.getRole().name()
+                                )
+                        )
+                );
+
+
+        // Generate JWT
+        String token =
+                jwtService.generateToken(userDetails);
+
+
+        // Return response
         return new AuthResponse(
                 token,
                 user.getUserName(),
@@ -74,6 +94,11 @@ public class AuthService {
                 user.getRole().name()
         );
     }
+
+
+    // =========================
+    // LOGIN
+    // =========================
 
     public AuthResponse login(LoginRequest request) {
 
@@ -86,17 +111,26 @@ public class AuthService {
                         )
                 );
 
-        // Get authenticated user
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new BadRequestException("User not found"));
 
-        // Generate JWT
-        String token = jwtService.generateToken(
-                (org.springframework.security.core.userdetails.User)
-                        authentication.getPrincipal()
-        );
+        // Get user from database
+        User user =
+                userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(() ->
+                                new BadRequestException(
+                                        "User not found"
+                                )
+                        );
 
+
+        // Generate JWT using authenticated user
+        String token =
+                jwtService.generateToken(
+                        (org.springframework.security.core.userdetails.User)
+                                authentication.getPrincipal()
+                );
+
+
+        // Return JWT + user information
         return new AuthResponse(
                 token,
                 user.getUserName(),

@@ -25,6 +25,7 @@ public class User {
     private Long userId;
 
     @NotNull
+    @Column(name = "user_name", nullable = false)
     private String userName;
 
     @Email
@@ -34,6 +35,7 @@ public class User {
     private String password;
 
     private String phoneNumber;
+
     private LocalDate createdAt;
 
     private LocalDate updatedAt;
