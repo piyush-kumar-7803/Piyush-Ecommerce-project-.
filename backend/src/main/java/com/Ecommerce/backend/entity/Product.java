@@ -1,9 +1,7 @@
 package com.Ecommerce.backend.entity;
 
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,11 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity
 public class Product {
 
     @Id
@@ -30,7 +28,9 @@ public class Product {
 
     private int stock;
 
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable =false)
+    private String imageUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 }

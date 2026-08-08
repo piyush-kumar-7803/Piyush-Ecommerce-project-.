@@ -3,8 +3,10 @@ package com.Ecommerce.backend.Controller;
 import com.Ecommerce.backend.entity.Product;
 import com.Ecommerce.backend.service.ProductService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,12 +35,12 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    // Add product
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Product> addProduct(
-            @RequestBody Product product) {
+            @RequestPart("product") Product product,
+            @RequestPart("image") MultipartFile image) {
 
-        Product newProduct = productService.addNewProduct(product);
+        Product newProduct = productService.addNewProduct(product, image);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -56,13 +58,17 @@ public class ProductController {
     }
 
     // Update product
-    @PutMapping("/{id}")
+    @PutMapping(
+            value = "/{id}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<Product> updateProductById(
             @PathVariable Long id,
-            @RequestBody Product product) {
+            @RequestPart("product") Product product,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
 
         Product updatedProduct =
-                productService.updateProductById(id, product);
+                productService.updateProductById(id, product, image);
 
         return ResponseEntity.ok(updatedProduct);
     }
