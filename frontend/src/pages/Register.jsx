@@ -1,16 +1,28 @@
-function Login() {
+function Register() {
     return (
         <div className="max-w-md mx-auto mt-12 bg-white p-6 rounded shadow">
 
             <h1 className="text-2xl font-bold mb-6">
-                Login
+                Create Account
             </h1>
 
             <form className="space-y-4">
 
                 <input
+                    type="text"
+                    placeholder="Username"
+                    className="w-full border p-3 rounded"
+                />
+
+                <input
                     type="email"
                     placeholder="Email"
+                    className="w-full border p-3 rounded"
+                />
+
+                <input
+                    type="text"
+                    placeholder="Phone Number"
                     className="w-full border p-3 rounded"
                 />
 
@@ -24,7 +36,7 @@ function Login() {
                     type="submit"
                     className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700"
                 >
-                    Login
+                    Register
                 </button>
 
             </form>
@@ -33,4 +45,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Register;
