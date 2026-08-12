@@ -20,6 +20,7 @@ export function AuthProvider({children}) {
         localStorage.setItem("token", data.token);
 
         const userData = {
+            userId: data.userId,
             userName: data.userName,
             email: data.email,
             role: data.role
@@ -39,6 +40,7 @@ export function AuthProvider({children}) {
         localStorage.setItem("token", data.token);
 
         const userData = {
+            userId: data.userId,
             userName: data.userName,
             email: data.email,
             role: data.role

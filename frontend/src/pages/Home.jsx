@@ -20,7 +20,7 @@ function Home() {
             <section className="bg-gradient-to-b from-slate-900 to-slate-800 text-white">
                 <div className="max-w-6xl mx-auto px-6 py-24 text-center">
                     <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
-                        Shop smarter, ship faster.
+                        Welcome to Piyush Store!
                     </h1>
                     <p className="text-slate-300 text-lg mb-8 max-w-xl mx-auto">
                         Quality products, honest prices, and a checkout that doesn't get in your way.

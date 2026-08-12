@@ -23,8 +23,8 @@ function Navbar() {
 
                 <Link to="/" className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
                     <span
-                        className="h-8 w-8 rounded-lg bg-indigo-500 flex items-center justify-center text-white text-sm">M</span>
-                    MyShop
+                        className="h-8 w-8 rounded-lg bg-indigo-500 flex items-center justify-center text-white text-sm">P</span>
+                    Piyush Store
                 </Link>
 
                 <div className="hidden md:flex items-center gap-8">

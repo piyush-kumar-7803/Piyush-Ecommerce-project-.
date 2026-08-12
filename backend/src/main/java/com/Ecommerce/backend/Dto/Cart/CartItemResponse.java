@@ -7,17 +7,17 @@ import java.math.BigDecimal;
 
 @Getter
 public class CartItemResponse {
-    private Long productId;
+    private final Long productId;
 
-    private String productName;
+    private final String productName;
 
-    private String imageUrl;
+    private final String imageUrl;
 
-    private BigDecimal price;
+    private final BigDecimal price;
 
-    private Integer quantity;
+    private final Integer quantity;
 
-    private BigDecimal totalPrice;
+    private final BigDecimal totalPrice;
 
 
     public CartItemResponse(CartItem item) {
