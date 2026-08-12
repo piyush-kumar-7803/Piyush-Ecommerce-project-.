@@ -1,6 +1,7 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -11,38 +12,83 @@ import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
 
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ManageProduct from "./pages/admin/ManageProduct";
+import AddProduct from "./pages/admin/AddProduct";
+import ManageCategories from "./pages/admin/ManageCategories";
+import ManageOrders from "./pages/admin/ManageOrders";
+
 function App() {
 
     return (
         <BrowserRouter>
 
-            <Navbar/>
+            <div className="min-h-screen bg-slate-50 flex flex-col">
 
-            <Routes>
+                <Navbar/>
 
-                <Route path="/" element={<Home/>}/>
+                <div className="flex-1">
+                    <Routes>
 
-                <Route path="/login" element={<Login/>}/>
+                        <Route path="/" element={<Home/>}/>
 
-                <Route path="/register" element={<Register/>}/>
+                        <Route path="/login" element={<Login/>}/>
 
-                <Route path="/products" element={<Products/>}/>
+                        <Route path="/register" element={<Register/>}/>
 
-                <Route
-                    path="/products/:id"
-                    element={<ProductDetails/>}
-                />
+                        <Route path="/products" element={<Products/>}/>
 
-                <Route path="/cart" element={<Cart/>}/>
+                        <Route
+                            path="/products/:id"
+                            element={<ProductDetails/>}
+                        />
 
-                <Route path="/orders" element={<Orders/>}/>
+                        <Route
+                            path="/cart"
+                            element={
+                                <ProtectedRoute>
+                                    <Cart/>
+                                </ProtectedRoute>
+                            }
+                        />
 
-                <Route
-                    path="/orders/:id"
-                    element={<OrderDetails/>}
-                />
+                        <Route
+                            path="/orders"
+                            element={
+                                <ProtectedRoute>
+                                    <Orders/>
+                                </ProtectedRoute>
+                            }
+                        />
 
-            </Routes>
+                        <Route
+                            path="/orders/:id"
+                            element={
+                                <ProtectedRoute>
+                                    <OrderDetails/>
+                                </ProtectedRoute>
+                            }
+                        />
+
+                        <Route
+                            path="/admin"
+                            element={
+                                <ProtectedRoute adminOnly>
+                                    <AdminDashboard/>
+                                </ProtectedRoute>
+                            }
+                        >
+                            <Route path="products" element={<ManageProduct/>}/>
+                            <Route path="products/new" element={<AddProduct/>}/>
+                            <Route path="products/:id/edit" element={<AddProduct/>}/>
+                            <Route path="categories" element={<ManageCategories/>}/>
+                            <Route path="orders" element={<ManageOrders/>}/>
+                        </Route>
+
+                    </Routes>
+                </div>
+
+            </div>
 
         </BrowserRouter>
     );
