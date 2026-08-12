@@ -18,12 +18,14 @@ function Navbar() {
     const linkClass = "text-sm font-medium text-slate-300 hover:text-white transition-colors";
 
     return (
-        <nav className="sticky top-0 z-50 bg-slate-950/95 backdrop-blur border-b border-slate-800">
+        <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
             <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
 
-                <Link to="/" className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+                <Link to="/" className="text-xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
                     <span
-                        className="h-8 w-8 rounded-lg bg-indigo-500 flex items-center justify-center text-white text-sm">P</span>
+                        className="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-400 via-indigo-500 to-fuchsia-500 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-indigo-500/30">
+                        P
+                    </span>
                     Piyush Store
                 </Link>
 
@@ -39,7 +41,7 @@ function Navbar() {
                 <div className="flex items-center gap-3">
                     <Link
                         to="/cart"
-                        className="relative h-10 w-10 flex items-center justify-center rounded-full hover:bg-slate-800 transition-colors"
+                        className="relative h-10 w-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
                         aria-label="Cart"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-200" fill="none"
@@ -49,7 +51,7 @@ function Navbar() {
                         </svg>
                         {itemCount > 0 && (
                             <span
-                                className="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 rounded-full bg-indigo-500 text-white text-[11px] font-semibold flex items-center justify-center">
+                                className="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 rounded-full bg-gradient-to-br from-indigo-400 to-fuchsia-500 text-white text-[11px] font-bold flex items-center justify-center shadow-md">
                                 {itemCount}
                             </span>
                         )}
@@ -60,7 +62,7 @@ function Navbar() {
                             <span className="text-sm text-slate-300">Hi, {user.userName}</span>
                             <button
                                 onClick={handleLogout}
-                                className="text-sm font-medium bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors"
+                                className="text-sm font-medium bg-white/10 text-white px-4 py-2 rounded-full hover:bg-white/20 transition-colors"
                             >
                                 Logout
                             </button>
@@ -70,7 +72,7 @@ function Navbar() {
                             <Link to="/login" className={linkClass}>Login</Link>
                             <Link
                                 to="/register"
-                                className="text-sm font-medium bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-colors"
+                                className="text-sm font-semibold bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white px-4 py-2 rounded-full hover:opacity-90 transition-opacity shadow-lg shadow-indigo-500/25"
                             >
                                 Register
                             </Link>
@@ -78,7 +80,7 @@ function Navbar() {
                     )}
 
                     <button
-                        className="md:hidden h-10 w-10 flex items-center justify-center rounded-full hover:bg-slate-800"
+                        className="md:hidden h-10 w-10 flex items-center justify-center rounded-full hover:bg-white/10"
                         onClick={() => setMenuOpen((o) => !o)}
                         aria-label="Menu"
                     >
@@ -92,7 +94,7 @@ function Navbar() {
             </div>
 
             {menuOpen && (
-                <div className="md:hidden border-t border-slate-800 px-6 py-4 flex flex-col gap-4 bg-slate-950">
+                <div className="md:hidden border-t border-white/5 px-6 py-4 flex flex-col gap-4 bg-slate-950">
                     <Link to="/" onClick={() => setMenuOpen(false)} className={linkClass}>Home</Link>
                     <Link to="/products" onClick={() => setMenuOpen(false)} className={linkClass}>Products</Link>
                     {isLoggedIn &&

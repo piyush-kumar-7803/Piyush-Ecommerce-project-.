@@ -53,9 +53,9 @@ function Products() {
                 <div className="flex flex-wrap gap-2 mb-8">
                     <button
                         onClick={() => setActiveCategory("all")}
-                        className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-colors ${
+                        className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
                             activeCategory === "all"
-                                ? "bg-slate-900 text-white border-slate-900"
+                                ? "bg-slate-900 text-white border-slate-900 shadow-md"
                                 : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
                         }`}
                     >
