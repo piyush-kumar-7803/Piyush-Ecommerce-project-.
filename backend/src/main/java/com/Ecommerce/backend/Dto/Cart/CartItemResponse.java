@@ -1,13 +1,17 @@
 package com.Ecommerce.backend.Dto.Cart;
 
 import com.Ecommerce.backend.entity.CartItem;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
+@Getter
 public class CartItemResponse {
     private Long productId;
 
     private String productName;
+
+    private String imageUrl;
 
     private BigDecimal price;
 
@@ -16,11 +20,13 @@ public class CartItemResponse {
     private BigDecimal totalPrice;
 
 
-        public CartItemResponse(CartItem item) {
-            this.productId = item.getProduct().getProductId(); // check your Product ID field name
-            this.productName = item.getProduct().getName();     // check your Product Name field name
-            this.quantity = item.getQuantity();
-            this.price = item.getProduct().getPrice();
-        }
+    public CartItemResponse(CartItem item) {
+        this.productId = item.getProduct().getProductId();
+        this.productName = item.getProduct().getName();
+        this.imageUrl = item.getProduct().getImageUrl();
+        this.quantity = item.getQuantity();
+        this.price = item.getProduct().getPrice();
+        this.totalPrice = this.price.multiply(BigDecimal.valueOf(this.quantity));
+    }
 
 }

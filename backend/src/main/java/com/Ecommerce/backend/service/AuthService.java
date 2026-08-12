@@ -37,38 +37,22 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
 
-        // Check if email already exists
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-
-            throw new BadRequestException(
-                    "Email is already registered"
-            );
+            throw new BadRequestException("Email is already registered");
         }
 
-        // Create user
         User user = new User();
 
         user.setUserName(request.getUserName());
         user.setEmail(request.getEmail());
-
-        // Encrypt password before saving
-        user.setPassword(
-                passwordEncoder.encode(request.getPassword())
-        );
-
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setPhoneNumber(request.getPhoneNumber());
-
-        // Every newly registered user is USER
         user.setRole(Role.USER);
-
         user.setCreatedAt(LocalDate.now());
         user.setUpdatedAt(LocalDate.now());
 
-        // Save user
         userRepository.save(user);
 
-
-        // Create Spring Security UserDetails
         UserDetails userDetails =
                 new org.springframework.security.core.userdetails.User(
                         user.getEmail(),
@@ -80,15 +64,11 @@ public class AuthService {
                         )
                 );
 
+        String token = jwtService.generateToken(userDetails);
 
-        // Generate JWT
-        String token =
-                jwtService.generateToken(userDetails);
-
-
-        // Return response
         return new AuthResponse(
                 token,
+                user.getUserId(),
                 user.getUserName(),
                 user.getEmail(),
                 user.getRole().name()
@@ -102,7 +82,6 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest request) {
 
-        // Authenticate email + password
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -111,28 +90,19 @@ public class AuthService {
                         )
                 );
 
-
-        // Get user from database
         User user =
                 userRepository.findByEmail(request.getEmail())
-                        .orElseThrow(() ->
-                                new BadRequestException(
-                                        "User not found"
-                                )
-                        );
+                        .orElseThrow(() -> new BadRequestException("User not found"));
 
-
-        // Generate JWT using authenticated user
         String token =
                 jwtService.generateToken(
                         (org.springframework.security.core.userdetails.User)
                                 authentication.getPrincipal()
                 );
 
-
-        // Return JWT + user information
         return new AuthResponse(
                 token,
+                user.getUserId(),
                 user.getUserName(),
                 user.getEmail(),
                 user.getRole().name()
