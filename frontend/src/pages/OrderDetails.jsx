@@ -60,15 +60,15 @@ function OrderDetails() {
 
     return (
         <div className="max-w-3xl mx-auto px-6 py-10">
-            <Link to="/orders" className="text-sm text-indigo-600 font-medium hover:underline mb-6 inline-block">
+            <Link to="/orders" className="text-sm text-indigo-600 font-semibold hover:underline mb-6 inline-block">
                 ← Back to Orders
             </Link>
 
-            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-6">
+            <div className="bg-white border border-slate-100 rounded-3xl p-6 mb-6 shadow-sm">
                 <div className="flex items-start justify-between mb-1">
-                    <h1 className="text-2xl font-bold text-slate-900">Order #{order.orderId}</h1>
+                    <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Order #{order.orderId}</h1>
                     <span
-                        className={`text-xs font-medium px-3 py-1 rounded-full ${
+                        className={`text-xs font-semibold px-3 py-1 rounded-full ${
                             statusStyles[order.status] || "bg-slate-100 text-slate-600"
                         }`}
                     >
@@ -87,24 +87,25 @@ function OrderDetails() {
                 </p>
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-2xl divide-y divide-slate-100 mb-6">
+            <div
+                className="bg-white border border-slate-100 rounded-3xl divide-y divide-slate-100 mb-6 shadow-sm overflow-hidden">
                 {order.items?.map((item) => (
                     <div key={item.productId} className="flex items-center justify-between p-5">
                         <div>
-                            <p className="font-medium text-slate-900">{item.productName}</p>
+                            <p className="font-semibold text-slate-900">{item.productName}</p>
                             <p className="text-sm text-slate-500">
                                 {item.quantity} × ₹{Number(item.price).toLocaleString("en-IN")}
                             </p>
                         </div>
-                        <span className="font-semibold text-slate-900">
+                        <span className="font-bold text-slate-900">
                             ₹{Number(item.total).toLocaleString("en-IN")}
                         </span>
                     </div>
                 ))}
 
-                <div className="flex items-center justify-between p-5 bg-slate-50 rounded-b-2xl">
-                    <span className="font-semibold text-slate-900">Total</span>
-                    <span className="font-bold text-slate-900 text-lg">
+                <div className="flex items-center justify-between p-5 bg-slate-50">
+                    <span className="font-bold text-slate-900">Total</span>
+                    <span className="font-extrabold text-slate-900 text-lg">
                         ₹{Number(order.totalAmount).toLocaleString("en-IN")}
                     </span>
                 </div>
@@ -114,7 +115,7 @@ function OrderDetails() {
                 <button
                     onClick={handleCancel}
                     disabled={cancelling}
-                    className="text-sm font-medium text-rose-600 border border-rose-200 px-5 py-2.5 rounded-xl hover:bg-rose-50 transition-colors disabled:opacity-50"
+                    className="text-sm font-semibold text-rose-600 border border-rose-200 px-5 py-2.5 rounded-full hover:bg-rose-50 transition-colors disabled:opacity-50"
                 >
                     {cancelling ? "Cancelling..." : "Cancel Order"}
                 </button>

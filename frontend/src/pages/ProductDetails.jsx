@@ -61,7 +61,7 @@ function ProductDetails() {
             <div className="grid md:grid-cols-2 gap-10">
 
                 <div
-                    className="aspect-square bg-slate-100 rounded-2xl overflow-hidden flex items-center justify-center">
+                    className="aspect-square bg-slate-100 rounded-3xl overflow-hidden flex items-center justify-center shadow-sm">
                     {image ? (
                         <img src={image} alt={product.name} className="h-full w-full object-cover"/>
                     ) : (
@@ -71,14 +71,14 @@ function ProductDetails() {
 
                 <div className="flex flex-col">
                     {product.category?.categoryName && (
-                        <span className="text-xs font-medium text-indigo-600 uppercase tracking-wide mb-2">
+                        <span className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-2">
                             {product.category.categoryName}
                         </span>
                     )}
 
-                    <h1 className="text-3xl font-bold text-slate-900 mb-3">{product.name}</h1>
+                    <h1 className="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">{product.name}</h1>
 
-                    <p className="text-2xl font-semibold text-slate-900 mb-4">
+                    <p className="text-2xl font-bold text-slate-900 mb-4">
                         ₹{Number(product.price).toLocaleString("en-IN")}
                     </p>
 
@@ -86,23 +86,23 @@ function ProductDetails() {
                         <p className="text-slate-600 leading-relaxed mb-6">{product.description}</p>
                     )}
 
-                    <p className={`text-sm font-medium mb-6 ${outOfStock ? "text-rose-600" : "text-emerald-600"}`}>
+                    <p className={`text-sm font-semibold mb-6 ${outOfStock ? "text-rose-600" : "text-emerald-600"}`}>
                         {outOfStock ? "Out of stock" : `${product.stock} in stock`}
                     </p>
 
                     {!outOfStock && (
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="flex items-center border border-slate-300 rounded-lg">
+                            <div className="flex items-center border border-slate-200 rounded-full bg-white">
                                 <button
                                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                                    className="px-3 py-2 text-slate-600 hover:bg-slate-50"
+                                    className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-l-full"
                                 >
                                     −
                                 </button>
-                                <span className="px-4 text-sm font-medium">{quantity}</span>
+                                <span className="px-4 text-sm font-semibold">{quantity}</span>
                                 <button
                                     onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
-                                    className="px-3 py-2 text-slate-600 hover:bg-slate-50"
+                                    className="px-4 py-2 text-slate-600 hover:bg-slate-50 rounded-r-full"
                                 >
                                     +
                                 </button>
@@ -113,7 +113,7 @@ function ProductDetails() {
                     <button
                         onClick={handleAddToCart}
                         disabled={outOfStock || adding}
-                        className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full sm:w-auto bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white px-8 py-3.5 rounded-full font-semibold hover:opacity-90 hover:scale-[1.02] transition-all shadow-lg shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     >
                         {outOfStock ? "Out of Stock" : adding ? "Adding..." : "Add to Cart"}
                     </button>

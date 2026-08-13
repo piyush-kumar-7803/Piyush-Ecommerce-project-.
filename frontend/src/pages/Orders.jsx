@@ -41,17 +41,17 @@ function Orders() {
 
     return (
         <div className="max-w-4xl mx-auto px-6 py-10">
-            <h1 className="text-3xl font-bold text-slate-900 mb-8">My Orders</h1>
+            <h1 className="text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">My Orders</h1>
 
             <div className="flex flex-col gap-4">
                 {orders.map((order) => (
                     <Link
                         key={order.orderId}
                         to={`/orders/${order.orderId}`}
-                        className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-sm hover:-translate-y-0.5 transition-all"
+                        className="flex items-center justify-between bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
                     >
                         <div>
-                            <p className="font-medium text-slate-900">Order #{order.orderId}</p>
+                            <p className="font-semibold text-slate-900">Order #{order.orderId}</p>
                             <p className="text-sm text-slate-500">
                                 {order.orderDate
                                     ? new Date(order.orderDate).toLocaleDateString("en-IN", {
@@ -66,11 +66,11 @@ function Orders() {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <span className="font-semibold text-slate-900">
+                            <span className="font-bold text-slate-900">
                                 ₹{Number(order.totalAmount).toLocaleString("en-IN")}
                             </span>
                             <span
-                                className={`text-xs font-medium px-3 py-1 rounded-full ${
+                                className={`text-xs font-semibold px-3 py-1 rounded-full ${
                                     statusStyles[order.status] || "bg-slate-100 text-slate-600"
                                 }`}
                             >

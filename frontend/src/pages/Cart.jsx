@@ -72,7 +72,7 @@ function Cart() {
 
     return (
         <div className="max-w-6xl mx-auto px-6 py-10">
-            <h1 className="text-3xl font-bold text-slate-900 mb-8">Shopping Cart</h1>
+            <h1 className="text-3xl font-extrabold text-slate-900 mb-8 tracking-tight">Shopping Cart</h1>
 
             <div className="grid lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 flex flex-col gap-4">
@@ -83,7 +83,7 @@ function Cart() {
                         return (
                             <div
                                 key={item.productId}
-                                className="flex gap-4 bg-white border border-slate-200 rounded-2xl p-4"
+                                className="flex gap-4 bg-white border border-slate-100 rounded-2xl p-4 shadow-sm"
                             >
                                 <div
                                     className="h-20 w-20 rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden shrink-0">
@@ -96,8 +96,8 @@ function Cart() {
 
                                 <div className="flex-1 flex flex-col justify-between">
                                     <div className="flex justify-between gap-3">
-                                        <h3 className="font-medium text-slate-900">{item.productName}</h3>
-                                        <span className="font-semibold text-slate-900 whitespace-nowrap">
+                                        <h3 className="font-semibold text-slate-900">{item.productName}</h3>
+                                        <span className="font-bold text-slate-900 whitespace-nowrap">
                                             ₹{Number(item.totalPrice ?? item.price * item.quantity).toLocaleString("en-IN")}
                                         </span>
                                     </div>
@@ -106,19 +106,19 @@ function Cart() {
                                     </p>
 
                                     <div className="flex items-center justify-between mt-2">
-                                        <div className="flex items-center border border-slate-300 rounded-lg">
+                                        <div className="flex items-center border border-slate-200 rounded-full">
                                             <button
                                                 disabled={isBusy}
                                                 onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
-                                                className="px-3 py-1.5 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+                                                className="px-3 py-1.5 text-slate-600 hover:bg-slate-50 disabled:opacity-50 rounded-l-full"
                                             >
                                                 −
                                             </button>
-                                            <span className="px-3 text-sm font-medium">{item.quantity}</span>
+                                            <span className="px-3 text-sm font-semibold">{item.quantity}</span>
                                             <button
                                                 disabled={isBusy}
                                                 onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
-                                                className="px-3 py-1.5 text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+                                                className="px-3 py-1.5 text-slate-600 hover:bg-slate-50 disabled:opacity-50 rounded-r-full"
                                             >
                                                 +
                                             </button>
@@ -127,7 +127,7 @@ function Cart() {
                                         <button
                                             disabled={isBusy}
                                             onClick={() => handleRemove(item.productId)}
-                                            className="text-sm text-rose-600 font-medium hover:underline disabled:opacity-50"
+                                            className="text-sm text-rose-600 font-semibold hover:underline disabled:opacity-50"
                                         >
                                             Remove
                                         </button>
@@ -138,8 +138,8 @@ function Cart() {
                     })}
                 </div>
 
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 h-fit sticky top-24">
-                    <h2 className="text-lg font-semibold text-slate-900 mb-4">Order Summary</h2>
+                <div className="bg-white border border-slate-100 rounded-3xl p-6 h-fit sticky top-24 shadow-sm">
+                    <h2 className="text-lg font-bold text-slate-900 mb-4">Order Summary</h2>
 
                     <div className="flex justify-between text-sm text-slate-600 mb-2">
                         <span>Subtotal</span>
@@ -147,7 +147,7 @@ function Cart() {
                     </div>
 
                     <div
-                        className="flex justify-between text-base font-semibold text-slate-900 border-t border-slate-200 mt-4 pt-4 mb-6">
+                        className="flex justify-between text-base font-bold text-slate-900 border-t border-slate-100 mt-4 pt-4 mb-6">
                         <span>Total</span>
                         <span>₹{Number(cart.grandTotal).toLocaleString("en-IN")}</span>
                     </div>
@@ -155,7 +155,7 @@ function Cart() {
                     <button
                         onClick={handleCheckout}
                         disabled={checkingOut}
-                        className="w-full bg-indigo-600 text-white py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors disabled:opacity-60"
+                        className="w-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white py-3.5 rounded-full font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-indigo-500/25 disabled:opacity-60"
                     >
                         {checkingOut ? "Placing order..." : "Checkout"}
                     </button>
