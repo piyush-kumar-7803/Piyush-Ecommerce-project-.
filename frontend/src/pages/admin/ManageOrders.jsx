@@ -52,11 +52,11 @@ function ManageOrders() {
                     value={orderId}
                     onChange={(e) => setOrderId(e.target.value)}
                     placeholder="Enter order ID"
-                    className="flex-1 border border-slate-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="flex-1 border border-slate-200 bg-slate-50 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                 />
                 <button
                     type="submit"
-                    className="bg-indigo-600 text-white px-6 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                    className="bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white px-6 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity shadow-md shadow-indigo-500/25"
                 >
                     Search
                 </button>
@@ -65,8 +65,8 @@ function ManageOrders() {
             {loading && <Loader label="Searching..."/>}
 
             {order && (
-                <div className="bg-white border border-slate-200 rounded-2xl p-6">
-                    <h2 className="font-semibold text-slate-900 mb-1">Order #{order.orderId}</h2>
+                <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+                    <h2 className="font-bold text-slate-900 mb-1">Order #{order.orderId}</h2>
                     <p className="text-sm text-slate-500 mb-4">
                         Total: ₹{Number(order.totalAmount).toLocaleString("en-IN")} · {order.items?.length || 0} item(s)
                     </p>
@@ -75,7 +75,7 @@ function ManageOrders() {
                         {order.items?.map((item) => (
                             <div key={item.productId} className="flex justify-between py-2 text-sm">
                                 <span className="text-slate-700">{item.productName} × {item.quantity}</span>
-                                <span className="text-slate-900 font-medium">
+                                <span className="text-slate-900 font-semibold">
                                     ₹{Number(item.total).toLocaleString("en-IN")}
                                 </span>
                             </div>
@@ -89,9 +89,9 @@ function ManageOrders() {
                                 key={status}
                                 onClick={() => handleStatusChange(status)}
                                 disabled={updating || order.status === status}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors disabled:cursor-default ${
+                                className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all disabled:cursor-default ${
                                     order.status === status
-                                        ? "bg-slate-900 text-white border-slate-900"
+                                        ? "bg-slate-900 text-white border-slate-900 shadow-md"
                                         : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
                                 }`}
                             >

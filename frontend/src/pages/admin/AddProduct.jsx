@@ -86,11 +86,12 @@ function AddProduct() {
 
     return (
         <div className="max-w-xl">
-            <h2 className="text-lg font-semibold text-slate-900 mb-6">
+            <h2 className="text-lg font-bold text-slate-900 mb-6">
                 {isEditing ? "Edit Product" : "Add Product"}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4 bg-white border border-slate-200 rounded-2xl p-6">
+            <form onSubmit={handleSubmit}
+                  className="space-y-4 bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
                 <div>
                     <label className="block text-sm font-medium text-slate-700 mb-1">Name</label>
                     <input
@@ -99,7 +100,7 @@ function AddProduct() {
                         required
                         value={form.name}
                         onChange={handleChange}
-                        className="w-full border border-slate-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full border border-slate-200 bg-slate-50 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                     />
                 </div>
 
@@ -110,7 +111,7 @@ function AddProduct() {
                         rows={3}
                         value={form.description}
                         onChange={handleChange}
-                        className="w-full border border-slate-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full border border-slate-200 bg-slate-50 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                     />
                 </div>
 
@@ -125,7 +126,7 @@ function AddProduct() {
                             required
                             value={form.price}
                             onChange={handleChange}
-                            className="w-full border border-slate-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            className="w-full border border-slate-200 bg-slate-50 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                         />
                     </div>
                     <div>
@@ -137,7 +138,7 @@ function AddProduct() {
                             required
                             value={form.stock}
                             onChange={handleChange}
-                            className="w-full border border-slate-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            className="w-full border border-slate-200 bg-slate-50 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                         />
                     </div>
                 </div>
@@ -149,7 +150,7 @@ function AddProduct() {
                         required
                         value={form.categoryId}
                         onChange={handleChange}
-                        className="w-full border border-slate-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full border border-slate-200 bg-slate-50 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                     >
                         <option value="" disabled>Select a category</option>
                         {categories.map((c) => (
@@ -166,14 +167,14 @@ function AddProduct() {
                         type="file"
                         accept="image/*"
                         onChange={(e) => setImageFile(e.target.files[0])}
-                        className="w-full text-sm border border-slate-300 rounded-lg p-2.5"
+                        className="w-full text-sm border border-slate-200 bg-slate-50 rounded-xl p-2.5"
                     />
                 </div>
 
                 <button
                     type="submit"
                     disabled={saving}
-                    className="w-full bg-indigo-600 text-white p-3 rounded-lg font-medium hover:bg-indigo-700 transition-colors disabled:opacity-60"
+                    className="w-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white p-3 rounded-xl font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-indigo-500/25 disabled:opacity-60"
                 >
                     {saving ? "Saving..." : isEditing ? "Update Product" : "Create Product"}
                 </button>

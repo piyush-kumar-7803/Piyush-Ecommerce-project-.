@@ -39,24 +39,25 @@ function ManageProduct() {
     return (
         <div>
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-slate-900">
+                <h2 className="text-lg font-bold text-slate-900">
                     {products.length} product{products.length === 1 ? "" : "s"}
                 </h2>
                 <Link
                     to="/admin/products/new"
-                    className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
+                    className="bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-indigo-500/25"
                 >
                     + Add Product
                 </Link>
             </div>
 
-            <div className="bg-white border border-slate-200 rounded-2xl divide-y divide-slate-100">
+            <div
+                className="bg-white border border-slate-100 rounded-3xl divide-y divide-slate-100 shadow-sm overflow-hidden">
                 {products.map((product) => {
                     const image = resolveImageUrl(product.imageUrl);
                     return (
                         <div key={product.productId} className="flex items-center gap-4 p-4">
                             <div
-                                className="h-14 w-14 rounded-lg bg-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                                className="h-14 w-14 rounded-xl bg-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
                                 {image ? (
                                     <img src={image} alt={product.name} className="h-full w-full object-cover"/>
                                 ) : (
@@ -65,27 +66,27 @@ function ManageProduct() {
                             </div>
 
                             <div className="flex-1 min-w-0">
-                                <p className="font-medium text-slate-900 truncate">{product.name}</p>
+                                <p className="font-semibold text-slate-900 truncate">{product.name}</p>
                                 <p className="text-sm text-slate-500">
                                     {product.category?.categoryName || "Uncategorized"} · {product.stock} in stock
                                 </p>
                             </div>
 
-                            <span className="font-medium text-slate-900 whitespace-nowrap">
+                            <span className="font-bold text-slate-900 whitespace-nowrap">
                                 ₹{Number(product.price).toLocaleString("en-IN")}
                             </span>
 
                             <div className="flex items-center gap-2">
                                 <Link
                                     to={`/admin/products/${product.productId}/edit`}
-                                    className="text-sm font-medium text-indigo-600 hover:underline"
+                                    className="text-sm font-semibold text-indigo-600 hover:underline"
                                 >
                                     Edit
                                 </Link>
                                 <button
                                     onClick={() => handleDelete(product.productId)}
                                     disabled={deletingId === product.productId}
-                                    className="text-sm font-medium text-rose-600 hover:underline disabled:opacity-50"
+                                    className="text-sm font-semibold text-rose-600 hover:underline disabled:opacity-50"
                                 >
                                     {deletingId === product.productId ? "Deleting..." : "Delete"}
                                 </button>

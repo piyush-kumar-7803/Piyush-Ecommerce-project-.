@@ -71,9 +71,9 @@ function ManageCategories() {
         <div className="grid md:grid-cols-3 gap-6">
             <form
                 onSubmit={handleSubmit}
-                className="md:col-span-1 bg-white border border-slate-200 rounded-2xl p-6 h-fit space-y-4"
+                className="md:col-span-1 bg-white border border-slate-100 rounded-3xl p-6 h-fit space-y-4 shadow-sm"
             >
-                <h2 className="font-semibold text-slate-900">
+                <h2 className="font-bold text-slate-900">
                     {editingId ? "Edit Category" : "New Category"}
                 </h2>
 
@@ -84,7 +84,7 @@ function ManageCategories() {
                         required
                         value={form.categoryName}
                         onChange={(e) => setForm({...form, categoryName: e.target.value})}
-                        className="w-full border border-slate-300 p-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full border border-slate-200 bg-slate-50 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                     />
                 </div>
 
@@ -94,7 +94,7 @@ function ManageCategories() {
                         rows={2}
                         value={form.categoryDescription}
                         onChange={(e) => setForm({...form, categoryDescription: e.target.value})}
-                        className="w-full border border-slate-300 p-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full border border-slate-200 bg-slate-50 p-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white transition-colors"
                     />
                 </div>
 
@@ -102,7 +102,7 @@ function ManageCategories() {
                     <button
                         type="submit"
                         disabled={saving}
-                        className="flex-1 bg-indigo-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-60"
+                        className="flex-1 bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity shadow-md shadow-indigo-500/25 disabled:opacity-60"
                     >
                         {saving ? "Saving..." : editingId ? "Update" : "Create"}
                     </button>
@@ -110,7 +110,7 @@ function ManageCategories() {
                         <button
                             type="button"
                             onClick={resetForm}
-                            className="px-4 py-2.5 rounded-lg text-sm font-medium bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            className="px-4 py-2.5 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200"
                         >
                             Cancel
                         </button>
@@ -118,11 +118,12 @@ function ManageCategories() {
                 </div>
             </form>
 
-            <div className="md:col-span-2 bg-white border border-slate-200 rounded-2xl divide-y divide-slate-100">
+            <div
+                className="md:col-span-2 bg-white border border-slate-100 rounded-3xl divide-y divide-slate-100 shadow-sm overflow-hidden">
                 {categories.map((c) => (
                     <div key={c.categoryId} className="flex items-center justify-between p-4">
                         <div>
-                            <p className="font-medium text-slate-900">{c.categoryName}</p>
+                            <p className="font-semibold text-slate-900">{c.categoryName}</p>
                             {c.categoryDescription && (
                                 <p className="text-sm text-slate-500">{c.categoryDescription}</p>
                             )}
@@ -130,13 +131,13 @@ function ManageCategories() {
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={() => handleEdit(c)}
-                                className="text-sm font-medium text-indigo-600 hover:underline"
+                                className="text-sm font-semibold text-indigo-600 hover:underline"
                             >
                                 Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(c.categoryId)}
-                                className="text-sm font-medium text-rose-600 hover:underline"
+                                className="text-sm font-semibold text-rose-600 hover:underline"
                             >
                                 Delete
                             </button>
