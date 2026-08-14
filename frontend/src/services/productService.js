@@ -1,6 +1,8 @@
 import api from "./api";
 
-const IMAGE_BASE_URL = "http://localhost:8080";
+const IMAGE_BASE_URL = import.meta.env.VITE_API_URL
+    ? import.meta.env.VITE_API_URL.replace(/\/api$/, "")
+    : "http://localhost:8080";
 
 // Resolve a product's image to a full URL (backend serves images as relative paths)
 export const resolveImageUrl = (imageUrl) => {
