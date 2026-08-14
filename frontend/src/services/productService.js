@@ -4,11 +4,9 @@ const IMAGE_BASE_URL = import.meta.env.VITE_API_URL
     ? import.meta.env.VITE_API_URL.replace(/\/api$/, "")
     : "http://localhost:8080";
 
-// Resolve a product's image to a full URL (backend serves images as relative paths)
 export const resolveImageUrl = (imageUrl) => {
     if (!imageUrl) return null;
-    if (imageUrl.startsWith("http")) return imageUrl;
-    return `${IMAGE_BASE_URL}${imageUrl}`;
+    return imageUrl;
 };
 
 // Get all products

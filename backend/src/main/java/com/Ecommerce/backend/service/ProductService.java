@@ -4,18 +4,15 @@ package com.Ecommerce.backend.service;
 import com.Ecommerce.backend.entity.Product;
 import com.Ecommerce.backend.repo.CategoryRepository;
 import com.Ecommerce.backend.repo.ProductRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 
 @Service
@@ -23,14 +20,16 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final String uploadDir = "uploads/products/";
+    private final Cloudinary cloudinary;
 
     public ProductService(
             ProductRepository productRepository,
-            CategoryRepository categoryRepository) {
+            CategoryRepository categoryRepository,
+            Cloudinary cloudinary) {
 
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.cloudinary = cloudinary;
     }
 
     public List<Product> getAllProducts() {
@@ -40,33 +39,12 @@ public class ProductService {
     public Product addNewProduct(Product product, MultipartFile image) {
 
         try {
-
-            File directory = new File(uploadDir);
-
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            String originalName = image.getOriginalFilename();
-
-            String fileName =
-                    UUID.randomUUID() + "_" + originalName;
-
-            Path filePath =
-                    Paths.get(uploadDir).resolve(fileName);
-
-            Files.copy(
-                    image.getInputStream(),
-                    filePath,
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-
-            product.setImageUrl("/images/products/" + fileName);
+            String imageUrl = uploadImage(image);
+            product.setImageUrl(imageUrl);
 
             return productRepository.save(product);
 
         } catch (IOException e) {
-
             throw new RuntimeException("Failed to upload image");
         }
     }
@@ -97,38 +75,25 @@ public class ProductService {
         existingProduct.setStock(product.getStock());
         existingProduct.setCategory(product.getCategory());
 
-        // Update image only if a new image was provided
         if (image != null && !image.isEmpty()) {
             try {
-                File directory = new File(uploadDir);
-
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-
-                String originalName = image.getOriginalFilename();
-
-                String fileName =
-                        UUID.randomUUID() + "_" + originalName;
-
-                Path filePath =
-                        Paths.get(uploadDir).resolve(fileName);
-
-                Files.copy(
-                        image.getInputStream(),
-                        filePath,
-                        StandardCopyOption.REPLACE_EXISTING
-                );
-
-                existingProduct.setImageUrl(
-                        "/images/products/" + fileName
-                );
-
+                String imageUrl = uploadImage(image);
+                existingProduct.setImageUrl(imageUrl);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to upload image");
             }
         }
 
         return productRepository.save(existingProduct);
+    }
+
+    private String uploadImage(MultipartFile image) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(
+                image.getBytes(),
+                ObjectUtils.asMap(
+                        "folder", "piyush-store/products"
+                )
+        );
+        return (String) uploadResult.get("secure_url");
     }
 }

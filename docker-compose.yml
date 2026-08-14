@@ -18,6 +18,9 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/Ecommerce
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 1234
+      CLOUDINARY_CLOUD_NAME: vqgawm11s
+      CLOUDINARY_API_KEY: 661371241979336
+      CLOUDINARY_API_SECRET: HLvF7fSikq_ipKbLPDFioPN_JQQ
     ports:
       - "8080:8080"
 
